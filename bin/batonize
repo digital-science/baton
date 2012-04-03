@@ -43,8 +43,14 @@ module Baton
       template(File.join("gem/lib/baton/gem/gem-monitor.rb.tt"),  File.join(target, "lib/baton/#{name}/#{name}-monitor.rb"),  opts)
       template(File.join("gem/lib/baton/gem/gem-api.rb.tt"),      File.join(target, "lib/baton/#{name}/#{name}-api.rb"),      opts)
       if options[:bin]
-        template(File.join("gem/bin/gem.tt"),          File.join(target, 'bin', name),              opts)
-        template(File.join("gem/bin/gem-monitor.tt"),  File.join(target, 'bin', "#{name}-monitor"), opts)
+        # Create the binaries' names
+        baton_bin_name   = File.join(target, 'bin', name)
+        monitor_bin_name = File.join(target, 'bin', "#{name}-monitor")
+        # Create the files
+        template(File.join("gem/bin/gem.tt"),          baton_bin_name,    opts)
+        template(File.join("gem/bin/gem-monitor.tt"),  monitor_bin_name,  opts)
+        # Make them executable
+         FileUtils.chmod 0755, [baton_bin_name, monitor_bin_name]
       end
 
       Dir.chdir(target) { `git init`; `git add .` }
