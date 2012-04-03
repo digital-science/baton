@@ -1,0 +1,60 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'thor'
+
+module Baton
+  class CLI < Thor
+    include Thor::Actions
+
+    desc "gem GEMNAME", "Creates a skeleton for creating a rubygem that extends Baton called baton-GEMNAME"
+
+    method_option :bin, :type => :boolean, :default => false, :aliases => '-b', :banner => "Generate a binary for your library."
+
+    def gem(name)
+      name = "baton-#{name.chomp("/")}"
+      target = File.join(Dir.pwd, name)
+      constant_name = name.split('_').map{|p| p[0..0].upcase + p[1..-1] }.join
+      constant_name = constant_name.split('-').map{|q| q[0..0].upcase + q[1..-1] }.join('::') if constant_name =~ /-/
+      constant_array = constant_name.split('::')
+      FileUtils.mkdir_p(File.join(target, 'config'))
+      FileUtils.mkdir_p(File.join(target, 'lib', "baton"))
+      FileUtils.mkdir_p(File.join(target, 'lib', 'baton', name))
+      git_user_name = `git config user.name`.chomp
+      git_user_email = `git config user.email`.chomp
+      opts = {
+        :name           => name,
+        :constant_name  => constant_name,
+        :constant_array => constant_array,
+        :author         => git_user_name.empty? ? "TODO: Write your name" : git_user_name,
+        :email          => git_user_email.empty? ? "TODO: Write your email address" : git_user_email
+      }
+
+      template(File.join("gem/Gemfile.tt"),                       File.join(target, "Gemfile"),                               opts)
+      template(File.join("gem/Rakefile.tt"),                      File.join(target, "Rakefile"),                              opts)
+      template(File.join("gem/LICENSE.tt"),                       File.join(target, "LICENSE"),                               opts)
+      template(File.join("gem/README.md.tt"),                     File.join(target, "README.md"),                             opts)
+      template(File.join("gem/gitignore.tt"),                     File.join(target, ".gitignore"),                            opts)
+      template(File.join("gem/gem.gemspec.tt"),                   File.join(target, "#{name}.gemspec"),                       opts)
+      template(File.join("gem/config/gem.cfg.tt"),                File.join(target, "config/#{name}.cfg"),                    opts)
+      template(File.join("gem/lib/baton/gem.rb.tt"),              File.join(target, "lib/baton/#{name}.rb"),                  opts)
+      template(File.join("gem/lib/baton/gem/version.rb.tt"),      File.join(target, "lib/baton/#{name}/version.rb"),          opts)
+      template(File.join("gem/lib/baton/gem/gem-consumer.rb.tt"), File.join(target, "lib/baton/#{name}/#{name}-consumer.rb"), opts)
+      template(File.join("gem/lib/baton/gem/gem-monitor.rb.tt"),  File.join(target, "lib/baton/#{name}/#{name}-monitor.rb"),  opts)
+      template(File.join("gem/lib/baton/gem/gem-api.rb.tt"),      File.join(target, "lib/baton/#{name}/#{name}-api.rb"),      opts)
+      if options[:bin]
+        template(File.join("gem/bin/gem.tt"),          File.join(target, 'bin', name),              opts)
+        template(File.join("gem/bin/gem-monitor.tt"),  File.join(target, 'bin', "#{name}-monitor"), opts)
+      end
+
+      Dir.chdir(target) { `git init`; `git add .` }
+    end
+
+    def self.source_root
+      File.expand_path(File.join(File.dirname(__FILE__), '../lib/baton/templates'))
+    end
+
+  end
+end
+
+Baton::CLI.start

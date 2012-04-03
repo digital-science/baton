@@ -1,0 +1,26 @@
+module Baton
+  class <%= config[:constant_array].last %>Consumer < Baton::Consumer
+
+    def process_message(message)
+      # TODO - listen to message types related to your gem
+      case message["type"]
+        when "dummy"
+          logger.info "received message dummy for #{consumer_name}: #{message}"
+          notify(attributes)
+        else
+          raise Exception, "Unknown message type for #{consumer_name}: #{message}"
+      end
+    end
+
+    def routing_key
+      # TODO - use a routing key that makes sense to your gem
+      "#{server.environment}"
+    end
+
+    def attributes
+      # TODO - define what output attributes should be sent to listeners
+      {type: "<%= config[:name] %>-response"}.merge(server.attributes)
+    end
+
+  end
+end

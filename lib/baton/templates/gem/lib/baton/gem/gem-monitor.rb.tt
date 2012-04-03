@@ -1,0 +1,32 @@
+require "baton"
+require "amqp"
+require "json"
+require "eventmachine"
+
+module Baton
+  class <%= config[:constant_array].last %>Monitor
+    include Baton::Logging
+
+    def self.run
+      monitor = <%= config[:constant_array].last %>Monitor.new
+      monitor.run
+    end
+
+    def run
+      logger.info "Starting <%= config[:name] %> monitor v#{Baton::VERSION}"
+      EM.run do
+        connection = AMQP.connect(Baton.configuration.connection_opts)
+
+        channel  = AMQP::Channel.new(connection)
+        queue    = channel.queue("<%= config[:name] %>-monitor")
+        exchange_out = channel.direct(Baton.configuration.exchange_out)
+
+        queue.bind(exchange_out).subscribe do |payload|
+          logger.info "Message read: #{payload}"
+          #TODO Do something with the payload here
+        end
+      end
+
+    end
+  end
+end

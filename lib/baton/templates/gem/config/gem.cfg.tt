@@ -1,0 +1,4 @@
+RABBIT_HOST: localhost
+RABBIT_VHOST: 
+RABBIT_USER: guest
+RABBIT_PASS: guest

@@ -1,0 +1,15 @@
+require "baton"
+require "baton/service"
+require "baton/<%=config[:name]%>/version"
+require "baton/<%=config[:name]%>/<%=config[:name]%>-consumer"
+
+module Baton
+  class <%= config[:constant_array].last %>Service < Baton::Service
+
+    def setup_consumers
+      srv = <%=config[:constant_name]%>Consumer.new(server.fqdn, server)
+      add_consumer(srv)
+    end
+  end
+end
+

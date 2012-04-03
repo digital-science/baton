@@ -1,0 +1,17 @@
+require "baton"
+require "baton/api"
+require "json"
+
+module Baton
+  class <%= config[:constant_array].last %>API < Baton::API
+
+    # TODO - delete the dummy api method and add your own api
+    # at this point, you can call methods on your project to
+    # return meaningful responses (deploy status, for example)
+    def self.dummy(env)
+      message = {type: "dummy"}
+      publish(message.to_json, "#{env}")
+    end
+
+  end
+end
