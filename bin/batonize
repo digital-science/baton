@@ -2,6 +2,7 @@
 
 require 'rubygems'
 require 'thor'
+require 'fileutils'
 
 module Baton
   class CLI < Thor
@@ -50,7 +51,7 @@ module Baton
         template(File.join("gem/bin/gem.tt"),          baton_bin_name,    opts)
         template(File.join("gem/bin/gem-monitor.tt"),  monitor_bin_name,  opts)
         # Make them executable
-         FileUtils.chmod 0755, [baton_bin_name, monitor_bin_name]
+        FileUtils.chmod 0755, [baton_bin_name, monitor_bin_name]
       end
 
       Dir.chdir(target) { `git init`; `git add .` }
