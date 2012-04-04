@@ -8,6 +8,7 @@ module Baton
     # Public: Initialize a Server. ALso, configures the server by reading Baton's configuration
     # file.
     def initialize
+      Ohai::Config[:plugin_path] << "/etc/chef/ohai_plugins"
       @ohai = Ohai::System.new
       @ohai.all_plugins
       configure
