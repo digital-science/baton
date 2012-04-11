@@ -5,9 +5,21 @@ module Baton
   class Configuration
     include Baton::Logging
 
-    attr_accessor :exchange, :exchange_out, :ohai_file,
-      :host, :vhost, :user, :password,
-      :pusher_app_id, :pusher_key, :pusher_secret, :config_path
+    attr_accessor :config, :host, :vhost, :user, :password
+
+    def initialize
+      @config = {}
+    end
+
+    # Public: ensure that any configuration options are automatically exposed.
+    #
+    def method_missing(name, *args, &block)
+      if name.to_s[-1] == '='
+        config[name[0..-2].to_s.upcase] = args[0]
+      else
+        config.fetch(name.to_s.upcase) {nil}
+      end
+    end
 
     # Public: Loads the config file given as parameter and sets up RabbitMQ's options.
     #
@@ -21,7 +33,8 @@ module Baton
     # Raises Errno::ENOENT if file cannot be found.
     def config_path=(path)
       config_file = YAML.load_file(path)
-      setup_rabbitmq_opts(config_file)
+      config.merge!(config_file)
+      setup_rabbitmq_opts
     rescue Errno::ENOENT => e
       self.host = "localhost"
       logger.error "Could not find a baton configuration file at #{path}"
@@ -41,11 +54,11 @@ module Baton
     #     })
     #
     # Returns nothing.
-    def setup_rabbitmq_opts(config_file)
-      self.host     = config_file.fetch("RABBIT_HOST") {"localhost"}
-      self.vhost    = config_file["RABBIT_VHOST"]
-      self.user     = config_file["RABBIT_USER"]
-      self.password = config_file["RABBIT_PASS"]
+    def setup_rabbitmq_opts
+      self.host     = config.fetch("RABBIT_HOST") {"localhost"}
+      self.vhost    = config["RABBIT_VHOST"]
+      self.user     = config["RABBIT_USER"]
+      self.password = config["RABBIT_PASS"]
     end
 
     # Public: Defines the connection options for RabbitMQ as a Hash.
