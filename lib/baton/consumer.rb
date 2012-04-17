@@ -83,6 +83,7 @@ module Baton
     #
     # Returns Output depends on the implementation.
     def attributes
+      {}
     end
 
   end
