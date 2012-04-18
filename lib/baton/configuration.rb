@@ -55,7 +55,17 @@ module Baton
     #
     # Returns nothing.
     def setup_rabbitmq_opts
-      self.host     = config.fetch("RABBIT_HOST") {"localhost"}
+
+      r_hosts    = config.fetch("RABBIT_HOST") {"localhost"}
+      r_hosts    = r_hosts.split(',')
+
+      # Pick a random host to connect to
+      self.host     = r_hosts[rand(r_hosts.size)]
+
+      # Remove this host from the pool and setup backup hosts
+      r_hosts.delete_if { |x| x == self.host }
+      self.backup_hosts = r_hosts
+
       self.vhost    = config["RABBIT_VHOST"]
       self.user     = config["RABBIT_USER"]
       self.password = config["RABBIT_PASS"]
