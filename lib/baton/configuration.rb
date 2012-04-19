@@ -60,7 +60,7 @@ module Baton
       r_hosts    = r_hosts.split(',')
 
       # Pick a random host to connect to
-      self.host     = r_hosts[rand(r_hosts.size)]
+      self.host     = r_hosts[Kernel.rand(r_hosts.size)]
 
       # Remove this host from the pool and setup backup hosts
       r_hosts.delete_if { |x| x == self.host }

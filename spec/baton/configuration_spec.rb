@@ -1,5 +1,6 @@
 require "spec_helper"
 require "baton/configuration"
+require "rspec/mocks"
 
 describe Baton::Configuration do
   describe "#config_path=" do
@@ -50,5 +51,22 @@ describe Baton::Configuration do
         subject.connection_opts.should eq({:host=>"fromconfig.com", :user=>"fromconfiguser", :password=>"fromconfigpass", :pass=>"fromconfigpass"})        
       end
     end
+  end
+
+  describe "multiple amqp hosts" do
+
+    before do
+      Kernel.stub!(:rand).and_return(1)
+      subject.config_path = "#{File.dirname(__FILE__)}/../fixtures/config-multi.cfg"
+    end
+
+    it "will set the host" do
+      subject.host.should eq("moreconfig.com")
+    end
+
+    it "will have backup hosts" do
+      subject.backup_hosts.should eq(["fromconfig.com", "thirdconfig.com"])
+    end
+
   end
 end
