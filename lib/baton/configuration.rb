@@ -5,7 +5,7 @@ module Baton
   class Configuration
     include Baton::Logging
 
-    attr_accessor :config, :host, :vhost, :user, :password
+    attr_accessor :config, :host, :vhost, :user, :password, :amqp_host_list
 
     def initialize
       @config = {}
@@ -56,15 +56,12 @@ module Baton
     # Returns nothing.
     def setup_rabbitmq_opts
 
-      r_hosts    = config.fetch("RABBIT_HOST") {"localhost"}
-      r_hosts    = r_hosts.split(',')
+      rabbit_hosts    = config.fetch("RABBIT_HOST") {"localhost"}
+      rabbit_hosts    = rabbit_hosts.split(',')
 
       # Pick a random host to connect to
-      self.host     = r_hosts[Kernel.rand(r_hosts.size)]
-
-      # Remove this host from the pool and setup backup hosts
-      r_hosts.delete_if { |x| x == self.host }
-      self.backup_hosts = r_hosts
+      self.host      = rabbit_hosts[Kernel.rand(rabbit_hosts.size)]
+      self.amqp_host_list = rabbit_hosts
 
       self.vhost    = config["RABBIT_VHOST"]
       self.user     = config["RABBIT_USER"]

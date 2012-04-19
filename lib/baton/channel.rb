@@ -5,13 +5,19 @@ module Baton
   class Channel
     include Baton::Logging
 
-    attr_accessor :channel, :exchange_in, :exchange_out, :connection
+    attr_accessor :channel, :exchange_in, :exchange_out, :connection, :connection_options, :amqp_hosts
 
     # Public: Initialize a Channel. It creates an AMQP  connection, a channel, 
     # an input and an output exchange and finally attaches the handle_channel_exception
     # callback to the on_error event on the channel.
     def initialize
-      @connection   = AMQP.connect(Baton.configuration.connection_opts)
+
+      @connection_options = Baton.configuration.connection_opts
+      @amqp_hosts = Baton.configuration.amqp_host_list
+
+      logger.info "Connecting to AMQP host: #{@connection_options[:host]}"
+
+      @connection   = AMQP.connect(@connection_options)
       @channel      = AMQP::Channel.new(@connection)
       @exchange_in  = channel.direct(Baton.configuration.exchange)
       @exchange_out = channel.direct(Baton.configuration.exchange_out)
@@ -45,15 +51,45 @@ module Baton
       logger.error "Channel-level exception: code = #{channel_close.reply_code}, message = #{channel_close.reply_text}"
     end
 
+    # Public: Provides a new AMQP hostname
+    #
+    # amqp_hosts - An array of hostnames for your AMQP servers
+    #
+    # Returns a string of an AMQP hostname.
+    # 
+    def get_new_amqp_host(amqp_hosts)
+      amqp_hosts[Kernel.rand(amqp_hosts.size)]
+    end
+
     # Public: Callback to handle TCP connection loss
     #
     # connection - An AMQP Connection
-    # settings - 
+    # settings - Current AMQP settings (see amq-client/lib/amq/client/settings.rb and lib/amq/client/async/adapter.rb)
     #
     # Returns nothing.
     #
     def handle_tcp_failure(connection, settings)
-      connection.reconnect(false, 10)
+
+      logger.info("Connection to AMQP lost. Finding new host..")
+
+      if @amqp_hosts.size == 1
+        logger.info("Only a single host.. reconnecting")
+        connection.reconnect(false, 10)
+        return
+      end
+
+      current_host = settings[:host]
+      new_host = get_new_amqp_host(@amqp_hosts)
+
+      while new_host == current_host
+        new_host = get_new_amqp_host(@amqp_hosts)
+      end
+
+      settings[:host] = new_host
+
+      logger.info ("Reconnecting to AMPQ host: #{new_host}")
+
+      connection.reconnect_to("amqp://#{new_host}:#{settings[:port]}")
     end
   end
 end

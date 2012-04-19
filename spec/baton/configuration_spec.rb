@@ -64,8 +64,8 @@ describe Baton::Configuration do
       subject.host.should eq("moreconfig.com")
     end
 
-    it "will have backup hosts" do
-      subject.backup_hosts.should eq(["fromconfig.com", "thirdconfig.com"])
+    it "will have an amqp host list" do
+      subject.amqp_host_list.should eq(["fromconfig.com", "moreconfig.com", "thirdconfig.com"])
     end
 
   end
