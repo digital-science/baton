@@ -19,11 +19,13 @@ module Baton
 
       @connection   = AMQP.connect(@connection_options)
       @channel      = AMQP::Channel.new(@connection)
+      @channel.auto_recovery = true
       @exchange_in  = channel.direct(Baton.configuration.exchange)
       @exchange_out = channel.direct(Baton.configuration.exchange_out)
       @connection.on_tcp_connection_loss(&method(:handle_tcp_failure))
       @channel.on_error(&method(:handle_channel_exception))
     end
+
 
     # Public: creates a consumer manager with a consumer attached and starts
     # listening to messages.
@@ -89,7 +91,7 @@ module Baton
 
       logger.info ("Reconnecting to AMPQ host: #{new_host}")
 
-      connection.reconnect_to("amqp://#{new_host}:#{settings[:port]}")
+      connection.reconnect_to(settings)
     end
   end
 end

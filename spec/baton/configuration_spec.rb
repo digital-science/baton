@@ -1,6 +1,5 @@
 require "spec_helper"
 require "baton/configuration"
-require "rspec/mocks"
 
 describe Baton::Configuration do
   describe "#config_path=" do
