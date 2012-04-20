@@ -51,4 +51,21 @@ describe Baton::Configuration do
       end
     end
   end
+
+  describe "multiple amqp hosts" do
+
+    before do
+      Kernel.stub!(:rand).and_return(1)
+      subject.config_path = "#{File.dirname(__FILE__)}/../fixtures/config-multi.cfg"
+    end
+
+    it "will set the host" do
+      subject.host.should eq("moreconfig.com")
+    end
+
+    it "will have an amqp host list" do
+      subject.amqp_host_list.should eq(["fromconfig.com", "moreconfig.com", "thirdconfig.com"])
+    end
+
+  end
 end
