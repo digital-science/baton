@@ -17,7 +17,7 @@ module Baton
       logger.info "Starting <%= config[:name] %> monitor v#{Baton::VERSION}"
       EM.run do
 
-        baton_channel	= Baton::Channel.new
+        baton_channel = Baton::Channel.new
         queue         = baton_channel.channel.queue("<%= config[:name] %>-monitor")
         exchange_out  = baton_channel.channel.direct(Baton.configuration.exchange_out)
 

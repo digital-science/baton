@@ -6,7 +6,6 @@ Baton.configure do |c|
   c.config_path  = "<%= File.join(Dir.pwd, config[:name], 'config', config[:name]) %>.cfg"
   c.exchange     = "<%= config[:name] %>_monitor_in"
   c.exchange_out = "<%= config[:name] %>_out"
-
 end
 
 Baton::<%= config[:constant_array].last %>Monitor.run
