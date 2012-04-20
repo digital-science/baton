@@ -2,6 +2,7 @@ require "baton"
 require "amqp"
 require "json"
 require "eventmachine"
+require "baton/channel"
 
 module Baton
   class <%= config[:constant_array].last %>Monitor
@@ -15,11 +16,10 @@ module Baton
     def run
       logger.info "Starting <%= config[:name] %> monitor v#{Baton::VERSION}"
       EM.run do
-        connection = AMQP.connect(Baton.configuration.connection_opts)
 
-        channel  = AMQP::Channel.new(connection)
-        queue    = channel.queue("<%= config[:name] %>-monitor")
-        exchange_out = channel.direct(Baton.configuration.exchange_out)
+        baton_channel = Baton::Channel.new
+        queue         = baton_channel.channel.queue("<%= config[:name] %>-monitor")
+        exchange_out  = baton_channel.channel.direct(Baton.configuration.exchange_out)
 
         queue.bind(exchange_out).subscribe do |payload|
           logger.info "Message read: #{payload}"
