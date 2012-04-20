@@ -42,27 +42,29 @@ module Baton
 
     # Public: Setup RabbitMQ's options from a config file. You have the option of 
     # passing in a comma seperated string of RabbitMQ servers to connect to. When 
-    # using a pool of servers one will be randomly picked for the initial
-    # connection. 
+    # using a pool of servers one will be randomly picked for the initial connection. 
     #
     # config_file - A hash representing a config file
     #
     # Examples
     #
-    #   setup_rabbitmq_opts({
+    #   # Single RabbitMQ server
+    #   config = {
     #     "RABBIT_HOST" => "localhost",
     #     "RABBIT_VHOST" => "baton",
     #     "RABBIT_USER" => "baton",
     #     "RABBIT_PASS" => "password"
-    #     })
+    #     }
     #
     #   # Use a pool of RabbitMQ servers
-    #   setup_rabbitmq_opts({
+    #   config = {
     #     "RABBIT_HOST" => "host1,host2,host3",
     #     "RABBIT_VHOST" => "baton",
     #     "RABBIT_USER" => "baton",
     #     "RABBIT_PASS" => "password"
-    #     })
+    #     }
+    #
+    #   setup_rabbitmq_opts
     #
     # Returns nothing.
     def setup_rabbitmq_opts
