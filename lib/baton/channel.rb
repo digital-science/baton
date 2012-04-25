@@ -20,6 +20,13 @@ module Baton
       @connection   = AMQP.connect(@connection_options)
       @channel      = AMQP::Channel.new(@connection)
       @channel.auto_recovery = true
+
+      # Not everything needs an input exchange, default to the "" exchange if there isn't
+      # one defined in the config (monitors for example)
+      if Baton.configuration.exchange.nil?
+        Baton.configuration.exchange = ''
+      end
+
       @exchange_in  = channel.direct(Baton.configuration.exchange)
       @exchange_out = channel.direct(Baton.configuration.exchange_out)
       @connection.on_tcp_connection_loss(&method(:handle_tcp_failure))
