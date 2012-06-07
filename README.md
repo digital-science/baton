@@ -31,6 +31,22 @@ Or, in your Gemfile:
 Please check an existing extension, e.g. [baton-ping](https://github.com/digital-science/baton-ping), for more information about how to use and extend baton. 
 Since baton was created as a base for other extensions, it doesn't do anything in particular by itself but provide the structure and a basic setup on top of RabbitMQ and EventMachine.
 
+## Submitting a Pull Request
+
+1. [Fork the repository.][fork]
+2. [Create a topic branch.][branch]
+3. Add specs for your unimplemented feature or bug fix.
+4. Run `bundle exec rake spec`. If your specs pass, return to step 3.
+5. Implement your feature or bug fix.
+6. Run `bundle exec rake spec`. If your specs fail, return to step 5.
+7. Run `open coverage/index.html`. If your changes are not completely covered
+   by your tests, return to step 3.
+8. Add documentation for your feature or bug fix.
+9. Run `bundle exec rake doc:yard`. If your changes are not 100% documented, go
+   back to step 8.
+10. Add, commit, and push your changes.
+11. [Submit a pull request.][pr]
+
 ## Details and Building Extensions
 
 Baton relies on [EventMachine](http://rubyeventmachine.com/) and [AMQP](http://rubyamqp.info/) for message passing. The gem defines a basic set of classes operating on top of RabbitMQ. The initial configuration will setup an input exchange and an output exchange. 
