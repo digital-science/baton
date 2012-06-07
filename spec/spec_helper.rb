@@ -7,8 +7,8 @@ require 'bundler'
 Bundler.setup
 require 'fakefs/spec_helpers'
 require "moqueue"
-require 'webmock/rspec'
 require "rspec/expectations"
+require 'webmock/rspec'
 require "baton/logging"
 require 'json'
 
