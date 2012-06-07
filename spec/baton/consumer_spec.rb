@@ -60,4 +60,12 @@ describe Baton::Consumer do
     end
   end
 
+  describe "#attributes" do
+    context "given an instance of a consumer" do
+      it "should have empty attributes" do
+        subject.attributes.should eq({})
+      end
+    end
+  end
+
 end

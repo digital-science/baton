@@ -46,4 +46,14 @@ describe Baton::Server do
       end
     end
   end
+
+  describe "#attributes" do
+    context "given an instance of a server" do
+      it "should have the attributes set" do
+        subject.attributes.should eq({:environment=>"production",
+          :fqdn=>"build-prod-i-722b0004.dsci.it",
+          :app_names=>["octobutler"]})
+      end
+    end
+  end
 end

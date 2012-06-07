@@ -68,5 +68,23 @@ describe Baton::ConsumerManager do
         subject.handle_message(metadata, payload)
       end
     end
+
+    context "given an error message" do
+      it "should log the error and publish it to the exchange" do
+        message = {:type => "error", :message => "an error message"}
+        subject.logger.should_receive(:error).with(message)
+        subject.exchange_out.should_receive(:publish)
+        subject.update(message)
+      end
+    end
+
+    context "given an info message" do
+      it "should log the info and publish it to the exchange" do
+        message = {:type => "info", :message => "an info message"}
+        subject.logger.should_receive(:info).with(message)
+        subject.exchange_out.should_receive(:publish)
+        subject.update(message)
+      end
+    end
   end
 end
