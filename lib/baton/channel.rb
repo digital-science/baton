@@ -23,12 +23,13 @@ module Baton
 
       # Not everything needs an input exchange, default to the "" exchange if there isn't
       # one defined in the config (monitors for example)
-      if Baton.configuration.exchange.nil?
-        Baton.configuration.exchange = ''
-      end
+      Baton.configuration.exchange = '' if Baton.configuration.exchange.nil?
 
+      # Create the exchanges
       @exchange_in  = channel.direct(Baton.configuration.exchange)
       @exchange_out = channel.direct(Baton.configuration.exchange_out)
+
+      # Attach callbacks for error handling
       @connection.on_tcp_connection_loss(&method(:handle_tcp_failure))
       @connection.on_tcp_connection_failure(&method(:handle_tcp_failure))
       @connection.on_connection_interruption(&method(:handle_tcp_failure))

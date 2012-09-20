@@ -28,7 +28,7 @@ Or, in your Gemfile:
 
 ## How to use
 
-Please check an existing extension, e.g. [baton-ping](https://github.com/digital-science/baton-ping), for more information about how to use and extend baton. 
+Please check an existing extension, e.g. [baton-ping](https://github.com/digital-science/baton-ping), for more information about how to use and extend baton.
 Since baton was created as a base for other extensions, it doesn't do anything in particular by itself but provide the structure and a basic setup on top of RabbitMQ and EventMachine.
 
 ## Submitting a Pull Request
@@ -47,7 +47,7 @@ Since baton was created as a base for other extensions, it doesn't do anything i
 
 ## Details and Building Extensions
 
-Baton relies on [EventMachine](http://rubyeventmachine.com/) and [AMQP](http://rubyamqp.info/) for message passing. The gem defines a basic set of classes operating on top of RabbitMQ. The initial configuration will setup an input exchange and an output exchange. 
+Baton relies on [EventMachine](http://rubyeventmachine.com/) and [AMQP](http://rubyamqp.info/) for message passing. The gem defines a basic set of classes operating on top of RabbitMQ. The initial configuration will setup an input exchange and an output exchange.
 
 On the input exchange, baton will wait for meaningful messages to perform actions (described by each service) and it will output messages to the output exchange.
 
@@ -73,7 +73,7 @@ This class must be extended in order to process each received message. One shoul
 
 ### Channel
 
-Like the consumer manager, this class doesn't need to be extended. It provides functionality to setup the exchanges and add consumers. 
+Like the consumer manager, this class doesn't need to be extended. It provides functionality to setup the exchanges and add consumers.
 
 ### Observer
 
