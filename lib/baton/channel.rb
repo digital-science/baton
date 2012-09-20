@@ -7,7 +7,7 @@ module Baton
 
     attr_accessor :channel, :exchange_in, :exchange_out, :connection, :connection_options, :amqp_hosts
 
-    # Public: Initialize a Channel. It creates an AMQP  connection, a channel, 
+    # Public: Initialize a Channel. It creates an AMQP  connection, a channel,
     # an input and an output exchange and finally attaches the handle_channel_exception
     # callback to the on_error event on the channel.
     def initialize
@@ -30,6 +30,8 @@ module Baton
       @exchange_in  = channel.direct(Baton.configuration.exchange)
       @exchange_out = channel.direct(Baton.configuration.exchange_out)
       @connection.on_tcp_connection_loss(&method(:handle_tcp_failure))
+      @connection.on_tcp_connection_failure(&method(:handle_tcp_failure))
+      @connection.on_connection_interruption(&method(:handle_tcp_failure))
       @channel.on_error(&method(:handle_channel_exception))
     end
 
@@ -52,7 +54,7 @@ module Baton
     # Public: Callback to handle errors on an AMQP channel.
     #
     # channel - An AMQP channel
-    # channel_close - 
+    # channel_close -
     #
     # Returns nothing.
     #
@@ -65,7 +67,7 @@ module Baton
     # amqp_hosts - An array of hostnames for your AMQP servers
     #
     # Returns a string of an AMQP hostname.
-    # 
+    #
     def get_new_amqp_host(amqp_hosts)
       amqp_hosts[Kernel.rand(amqp_hosts.size)]
     end
