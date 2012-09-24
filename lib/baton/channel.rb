@@ -32,7 +32,6 @@ module Baton
       # Attach callbacks for error handling
       @connection.on_tcp_connection_loss(&method(:handle_tcp_failure))
       @connection.on_tcp_connection_failure(&method(:handle_tcp_failure))
-      @connection.on_connection_interruption(&method(:handle_tcp_failure))
       @channel.on_error(&method(:handle_channel_exception))
     end
 
