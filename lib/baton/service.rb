@@ -18,6 +18,7 @@ module Baton
       @server = Baton::Server.new
       @daemonize = daemonize
       @pid_file = Baton.configuration.pid_file || "/var/run/baton.pid"
+      logger = Baton.configuration.log_file || STDOUT
     end
 
     # Public: Method that starts the service.
