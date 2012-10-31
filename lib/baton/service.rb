@@ -58,19 +58,23 @@ module Baton
     end
 
     def stop
-      pid = get_pid
-      begin
-        EM.stop
-      rescue
-      end
+      if @daemonize
+        pid = get_pid
+        begin
+          EM.stop
+        rescue
+        end
 
-      if pid != 0
-        Process.kill('HUP', pid.to_i)
-        File.delete(@pid_file)
-        logger.info "Stopped"
+        if pid != 0
+          Process.kill('HUP', pid.to_i)
+          File.delete(@pid_file)
+          logger.info "Stopped"
+        else
+          logger.warn "Daemon not running"
+          exit -1
+        end
       else
-        logger.warn "Daemon not running"
-        exit -1
+        EM.stop
       end
     end
 
