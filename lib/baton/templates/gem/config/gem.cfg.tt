@@ -2,3 +2,6 @@ RABBIT_HOST: localhost
 RABBIT_VHOST: 
 RABBIT_USER: guest
 RABBIT_PASS: guest
+#for daemonising applications
+#PID_FILE: /var/run/<%=config[:name]%>.pid
+#LOG_FILE: /var/log/<%=config[:name]%>.log
