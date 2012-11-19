@@ -1,11 +1,31 @@
 #!/usr/bin/env ruby
 
 require 'baton/<%= config[:name] %>'
+require 'optparse'
+
+cfg = File.expand_path("../../config/<%= config[:name]) %>.cfg", __FILE__)
+daemonize = false
+
+OptionParser.new do |opt|
+  opt.banner = "Usage: <%= config[:name] %> [OPTIONS]"
+  opt.separator ""
+  opt.separator "Specific options:"
+  opt.on("-c","--config-file [PATH]", "Path to a baton config file") do |o|
+    cfg = o
+  end
+  opt.on("-d","--daemonize", "Should baton daemonize") do |o|
+    daemonize = o
+  end
+  opt.on_tail("-h", "--help", "Show this message") do
+    puts opt
+    exit
+  end
+end.parse!
 
 Baton.configure do |c|
-  c.config_path  = "<%= File.join(Dir.pwd, config[:name], 'config', config[:name]) %>.cfg"
+  c.config_path  = cfg
   c.exchange     = "<%= config[:name] %>_in"
   c.exchange_out = "<%= config[:name] %>_out"
 end
 
-Baton::<%= config[:constant_array].last %>Service.new.run
+Baton::<%= config[:constant_array].last %>Service.new(daemonize).run

@@ -62,6 +62,7 @@ Any baton extension should have an executable script that will start the extensi
 ### Service
 
 The Service is the starting point of any baton extension. The idea of the service is to setup consumers for the input messages arriving from the API. By implementing `setup_consumers` one will allow the consumers to receive messages. [Here](https://github.com/digital-science/baton-ping/blob/master/lib/baton/baton-ping.rb) is an example.
+The service also handles daemonizing for an extension. It will properly detach the process and take care of managing pid files and optionally log files. The configuration for pid and log files is commented out in the sample config.
 
 ### Consumer Manager
 
