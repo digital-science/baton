@@ -5,7 +5,7 @@ module Baton
   class Configuration
     include Baton::Logging
 
-    attr_accessor :config, :host, :vhost, :user, :password, :amqp_host_list
+    attr_accessor :config, :host, :vhost, :user, :password, :amqp_host_list, :heartbeat
 
     def initialize
       @config = {}
@@ -76,9 +76,10 @@ module Baton
       self.host      = rabbit_hosts[Kernel.rand(rabbit_hosts.size)]
       self.amqp_host_list = rabbit_hosts
 
-      self.vhost    = config["RABBIT_VHOST"]
-      self.user     = config["RABBIT_USER"]
-      self.password = config["RABBIT_PASS"]
+      self.vhost     = config["RABBIT_VHOST"]
+      self.user      = config["RABBIT_USER"]
+      self.password  = config["RABBIT_PASS"]
+      self.heartbeat = config.fetch("RABBIT_HEARTBEAT", 60).to_i
     end
 
     # Public: Defines the connection options for RabbitMQ as a Hash.
@@ -90,7 +91,14 @@ module Baton
     #
     # Returns a hash of RabbitMQ connection options.
     def connection_opts
-      {:host => host, :vhost => vhost, :user => user, :password => password, :pass => password}.delete_if{|k,v| v.nil?}
+      {
+        :host => host, 
+        :vhost => vhost, 
+        :user => user, 
+        :password => password, 
+        :pass => password,
+        :heartbeat => heartbeat
+      }.delete_if{|k,v| v.nil?}
     end
   end
 end
