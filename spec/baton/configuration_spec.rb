@@ -23,6 +23,10 @@ describe Baton::Configuration do
       it "will set the password" do
         subject.password.should eq("fromconfigpass")
       end
+
+      it "will set the heartbeat" do
+        subject.heartbeat.should eq(666)
+      end
     end
 
     context "given a non existing file" do
@@ -40,14 +44,27 @@ describe Baton::Configuration do
 
     context "give a config file" do
       it "will return a config hash" do
-        subject.connection_opts.should eq({:host=>"fromconfig.com", :vhost=>"fromconfig", :user=>"fromconfiguser", :password=>"fromconfigpass", :pass=>"fromconfigpass"})
+        subject.connection_opts.should eq({
+          :host=>"fromconfig.com", 
+          :vhost=>"fromconfig", 
+          :user=>"fromconfiguser", 
+          :password=>"fromconfigpass", 
+          :pass=>"fromconfigpass",
+          :heartbeat=>666
+        })
       end
     end
 
     context "given one of the configuration options is nil" do
       it "will not be returned in the config hash" do
         subject.vhost = nil
-        subject.connection_opts.should eq({:host=>"fromconfig.com", :user=>"fromconfiguser", :password=>"fromconfigpass", :pass=>"fromconfigpass"})
+        subject.connection_opts.should eq({
+          :host=>"fromconfig.com", 
+          :user=>"fromconfiguser", 
+          :password=>"fromconfigpass", 
+          :pass=>"fromconfigpass",
+          :heartbeat=>666
+        })
       end
     end
   end
@@ -65,6 +82,10 @@ describe Baton::Configuration do
 
     it "will have an amqp host list" do
       subject.amqp_host_list.should eq(["fromconfig.com", "moreconfig.com", "thirdconfig.com"])
+    end
+
+    it "will default the heartbeat to 60" do
+      subject.heartbeat.should eq(60)
     end
 
   end
