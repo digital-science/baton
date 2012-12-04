@@ -33,8 +33,8 @@ module Baton
       @connection.on_tcp_connection_loss(&method(:handle_tcp_failure))
       @channel.on_error(&method(:handle_channel_exception))
 
-	  @service = service
-	  @service.setup_consumers
+      @service = service
+      @service.setup_consumers
     end
 
 
@@ -88,7 +88,7 @@ module Baton
       if @amqp_hosts.size == 1
         logger.info("Only a single host.. reconnecting")
         connection.reconnect(false, 10)
-		@service.setup_consumers
+        @service.setup_consumers
         return
       end
 
@@ -104,7 +104,7 @@ module Baton
       logger.info ("Reconnecting to AMPQ host: #{new_host}")
 
       connection.reconnect_to(settings)
-	  @service.setup_consumers
+      @service.setup_consumers
     end
   end
 end
