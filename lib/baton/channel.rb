@@ -10,7 +10,7 @@ module Baton
     # Public: Initialize a Channel. It creates an AMQP  connection, a channel,
     # an input and an output exchange and finally attaches the handle_channel_exception
     # callback to the on_error event on the channel.
-    def initialize
+    def initialize(service)
 
       @connection_options = Baton.configuration.connection_opts
       @amqp_hosts = Baton.configuration.amqp_host_list
@@ -32,6 +32,9 @@ module Baton
       # Attach callbacks for error handling
       @connection.on_tcp_connection_loss(&method(:handle_tcp_failure))
       @channel.on_error(&method(:handle_channel_exception))
+
+      @service = service
+      @service.setup_consumers
     end
 
 
@@ -85,6 +88,7 @@ module Baton
       if @amqp_hosts.size == 1
         logger.info("Only a single host.. reconnecting")
         connection.reconnect(false, 10)
+        @service.setup_consumers
         return
       end
 
@@ -100,6 +104,7 @@ module Baton
       logger.info ("Reconnecting to AMPQ host: #{new_host}")
 
       connection.reconnect_to(settings)
+      @service.setup_consumers
     end
   end
 end

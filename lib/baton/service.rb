@@ -29,8 +29,7 @@ module Baton
       EM.run do
         Signal.trap('INT') { stop }
         Signal.trap('TERM'){ stop }
-        @channel = Baton::Channel.new
-        setup_consumers
+        @channel = Baton::Channel.new(self)
       end
     end
 
