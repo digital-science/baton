@@ -3,7 +3,7 @@
 require 'baton/<%= config[:name] %>'
 require 'optparse'
 
-cfg = File.expand_path("../../config/<%= config[:name]) %>.cfg", __FILE__)
+cfg = File.expand_path("../../config/<%= config[:name] %>.cfg", __FILE__)
 daemonize = false
 
 OptionParser.new do |opt|

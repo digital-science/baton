@@ -3,7 +3,7 @@
 require "baton/<%= config[:name] %>/<%= config[:name] %>-monitor"
 require 'optparse'
 
-cfg = File.expand_path("../../config/<%= config[:name]) %>.cfg", __FILE__)
+cfg = File.expand_path("../../config/<%= config[:name] %>.cfg", __FILE__)
 
 OptionParser.new do |opt|
   opt.banner = "Usage: <%= config[:name] %> [OPTIONS]"
