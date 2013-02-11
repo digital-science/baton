@@ -21,6 +21,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency "em-http-request", "1.0.3"
   gem.add_runtime_dependency "bunny", "~> 0.8.0"
   gem.add_runtime_dependency "ohai", "~> 0.6.12"
+  gem.add_runtime_dependency "chef", "~> 10.12.0"
   gem.add_runtime_dependency "thor"
 
   gem.add_development_dependency "rspec", "~> 2.7"
@@ -30,4 +31,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "webmock", "~> 1.8.7"
   gem.add_development_dependency "minitar", "0.5.3"
   gem.add_development_dependency "simplecov", "0.6.4"
+  gem.add_development_dependency "pry"
 end
