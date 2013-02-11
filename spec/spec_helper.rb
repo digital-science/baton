@@ -11,6 +11,7 @@ require "rspec/expectations"
 require 'webmock/rspec'
 require "baton/logging"
 require 'json'
+require 'pry'
 
 WebMock.disable_net_connect!
 
