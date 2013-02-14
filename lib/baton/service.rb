@@ -38,23 +38,23 @@ module Baton
       if @daemonize
         pid = get_pid
 
-        if pid != 0 
+        if pid != 0
           logger.error "Baton is already running! (PID: #{pid})"
           exit -1
         end
 
-        pid = fork { go }
+        Process.daemon
+        pid = Process.pid
 
         begin
           File.open(@pid_file, "w") { |f| f.write pid }
-          Process.detach(pid)
         rescue => exc
           Process.kill('TERM', pid)
           logger.error "Couldn't daemonize: #{exc.message}"
         end
-      else
-        go
       end
+
+      go
     end
 
     def stop
