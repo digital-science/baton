@@ -47,7 +47,7 @@ module Baton
         pid = Process.pid
 
         begin
-          File.open(@pid_file, "w") { |f| f.write pid }
+          File.write(@pid_file, pid)
         rescue => exc
           Process.kill('TERM', pid)
           logger.error "Couldn't daemonize: #{exc.message}"
