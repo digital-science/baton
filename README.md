@@ -1,6 +1,6 @@
 # Baton - Server Orchestration Tool
 
-[![Build Status](https://secure.travis-ci.org/digital-science/baton.png)](http://travis-ci.org/digital-science/baton)
+[![Build Status](https://secure.travis-ci.org/digital-science/baton.png?branch=master)](http://travis-ci.org/digital-science/baton)
 
 ## Description
 
