@@ -21,7 +21,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency "em-http-request", "1.0.3"
   gem.add_runtime_dependency "bunny", "~> 0.8.0"
   gem.add_runtime_dependency "ohai", "~> 0.6.12"
-  gem.add_runtime_dependency "chef", "~> 10.12.0"
+  gem.add_runtime_dependency "chef"
   gem.add_runtime_dependency "thor"
 
   gem.add_development_dependency "rspec", "~> 2.7"
