@@ -7,6 +7,7 @@ describe Baton::Server do
     describe "#configure" do
       context "given data from Ohai" do
 
+        before(:each) do
           Baton::Server.any_instance.stub(:facts).and_return({
             "chef_environment" => "production",
             "fqdn" => "build-prod-i-722b0004.dsci.it",
