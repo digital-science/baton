@@ -4,17 +4,18 @@ require "baton/server"
 describe Baton::Server do
 
   context "stubbed ohai" do
+
+    before(:each) do
+      Baton::Server.any_instance.stub(:facts).and_return({
+        "chef_environment" => "production",
+        "fqdn" => "build-prod-i-722b0004.dsci.it",
+        "trebuchet" => ["octobutler"]
+      })
+      Baton::Server.any_instance.stub(:setup_ohai)
+    end
+
     describe "#configure" do
       context "given data from Ohai" do
-
-        before(:each) do
-          Baton::Server.any_instance.stub(:facts).and_return({
-            "chef_environment" => "production",
-            "fqdn" => "build-prod-i-722b0004.dsci.it",
-            "trebuchet" => ["octobutler"]
-          })
-          Baton::Server.any_instance.stub(:setup_ohai)
-        end
 
         it "will set the fqdn" do
           subject.fqdn.should eq("build-prod-i-722b0004.dsci.it")
