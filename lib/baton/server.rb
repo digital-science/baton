@@ -5,12 +5,10 @@ module Baton
 
     attr_accessor :environment, :fqdn, :app_names
 
-    # Public: Initialize a Server. ALso, configures the server by reading Baton's configuration
-    # file.
+    # Public: Initializes a server. Loads Ohai plugins and sets up basic
+    # server info, such as environment, fqdn and app names.
     def initialize
-      Ohai::Config[:plugin_path] << ohai_plugin_path
-      @ohai = Ohai::System.new
-      @ohai.all_plugins
+      setup_ohai
       configure
     end
 
@@ -53,6 +51,13 @@ module Baton
     # Private: Path where ohai plugins are
     def ohai_plugin_path
       "/etc/chef/ohai_plugins"
+    end
+
+    # Load Ohai plugins from the server
+    def setup_ohai
+      Ohai::Config[:plugin_path] << ohai_plugin_path
+      @ohai = Ohai::System.new
+      @ohai.all_plugins
     end
 
   end
