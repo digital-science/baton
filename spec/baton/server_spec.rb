@@ -1,5 +1,4 @@
 require "spec_helper"
-require "baton/server"
 
 describe Baton::Server do
 
