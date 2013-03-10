@@ -1,5 +1,4 @@
 require "spec_helper"
-require "baton"
 
 describe Baton do
   describe ".configure" do
