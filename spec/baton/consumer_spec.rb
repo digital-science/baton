@@ -2,21 +2,16 @@ require "spec_helper"
 
 describe Baton::Consumer do
 
-  before :each do
+  let(:server) {
     Baton::Server.any_instance.stub(:facts).and_return({
       "fqdn" => "camac.dsci.it",
       "chef_environment" => "production"
     })
-    @server = Baton::Server.new
-  end
-
-  let(:payload) do
-    JSON({"type" => "message type" })
-  end
-
-  subject {
-    Baton::Consumer.new("deploy-consumer", @server)
+    Baton::Server.any_instance.stub(:setup_ohai)
+    Baton::Server.new
   }
+  let(:payload) { JSON({"type" => "message type" }) }
+  let(:subject) { Baton::Consumer.new("deploy-consumer", server) }
 
   describe "#routing_key" do
     context "given an instance of Baton::Consumer" do
