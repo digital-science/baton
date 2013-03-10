@@ -1,7 +1,4 @@
 require "spec_helper"
-require "baton"
-require "baton/consumer"
-require "baton/server"
 
 describe Baton::Consumer do
 
