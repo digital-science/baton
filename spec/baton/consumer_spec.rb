@@ -2,7 +2,6 @@ require "spec_helper"
 require "baton"
 require "baton/consumer"
 require "baton/server"
-require 'ostruct'
 
 describe Baton::Consumer do
 

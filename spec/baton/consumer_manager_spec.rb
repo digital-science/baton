@@ -1,5 +1,4 @@
 require "spec_helper"
-require "ostruct"
 require "moqueue"
 
 describe Baton::ConsumerManager do
