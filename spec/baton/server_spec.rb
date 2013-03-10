@@ -2,18 +2,18 @@ require "spec_helper"
 require "baton/server"
 
 describe Baton::Server do
-  context "stubbed ohai" do
-    before(:each) do
-      Ohai::System.any_instance.stub(:all_plugins).and_return(true)
-      Ohai::System.any_instance.stub(:data).and_return({
-        "chef_environment" => "production",
-        "fqdn" => "build-prod-i-722b0004.dsci.it",
-        "trebuchet" => ["octobutler"]
-      })
-    end
 
+  context "stubbed ohai" do
     describe "#configure" do
       context "given data from Ohai" do
+
+          Baton::Server.any_instance.stub(:facts).and_return({
+            "chef_environment" => "production",
+            "fqdn" => "build-prod-i-722b0004.dsci.it",
+            "trebuchet" => ["octobutler"]
+          })
+          Baton::Server.any_instance.stub(:setup_ohai)
+        end
 
         it "will set the fqdn" do
           subject.fqdn.should eq("build-prod-i-722b0004.dsci.it")
@@ -31,6 +31,7 @@ describe Baton::Server do
       context "given the required facts are not available" do
         before(:each) do
           Baton::Server.any_instance.stub(:facts).and_return({})
+          Baton::Server.any_instance.stub(:setup_ohai)
           subject.configure
         end
 
@@ -68,7 +69,7 @@ describe Baton::Server do
     describe "#environment" do
       context "production" do
         it "should have the correct environment set" do
-          subject.environment.should eq('production')
+          Baton::Server.new.environment.should eq('production')
         end
       end
     end
