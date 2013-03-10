@@ -1,9 +1,9 @@
 require "spec_helper"
-require "baton/configuration"
 
 describe Baton::Configuration do
   describe "#config_path=" do
     context "given config file available" do
+
       before(:each) do
         subject.config_path = "#{File.dirname(__FILE__)}/../fixtures/config.cfg"
       end
@@ -45,12 +45,12 @@ describe Baton::Configuration do
     context "give a config file" do
       it "will return a config hash" do
         subject.connection_opts.should eq({
-          :host=>"fromconfig.com", 
-          :vhost=>"fromconfig", 
-          :user=>"fromconfiguser", 
-          :password=>"fromconfigpass", 
-          :pass=>"fromconfigpass",
-          :heartbeat=>666
+          host:      "fromconfig.com",
+          vhost:     "fromconfig",
+          user:      "fromconfiguser",
+          password:  "fromconfigpass",
+          pass:      "fromconfigpass",
+          heartbeat: 666
         })
       end
     end
@@ -59,11 +59,11 @@ describe Baton::Configuration do
       it "will not be returned in the config hash" do
         subject.vhost = nil
         subject.connection_opts.should eq({
-          :host=>"fromconfig.com", 
-          :user=>"fromconfiguser", 
-          :password=>"fromconfigpass", 
-          :pass=>"fromconfigpass",
-          :heartbeat=>666
+          host:      "fromconfig.com",
+          user:      "fromconfiguser",
+          password:  "fromconfigpass",
+          pass:      "fromconfigpass",
+          heartbeat: 666
         })
       end
     end

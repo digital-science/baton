@@ -2,16 +2,16 @@ require 'simplecov'
 SimpleCov.start do
   add_filter "/spec"
 end
+
 require 'rubygems'
-require 'bundler'
-Bundler.setup
+require 'bundler/setup'
+
+dir = File.dirname(File.expand_path(__FILE__))
+$LOAD_PATH.unshift dir + '/../lib'
+require 'baton'
+
 require 'fakefs/spec_helpers'
-require "moqueue"
-require "rspec/expectations"
 require 'webmock/rspec'
-require "baton/logging"
-require 'json'
-require 'pry'
 
 WebMock.disable_net_connect!
 
