@@ -19,3 +19,4 @@ log/*
 .DS_Store
 coverage
 *.swp
+*.rdb
