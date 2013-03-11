@@ -89,3 +89,7 @@ If you would like to create your own extension, simply install baton (`gem insta
     batonize gem GEMNAME -b
 
 This will create a basic gem structure with the necessary files to create a minimum viable baton extension.
+
+# Copyright
+
+Copyright (c) Digital Science. See [LICENSE](https://github.com/digital-science/baton/blob/master/LICENSE) for details.
