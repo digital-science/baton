@@ -24,6 +24,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency "chef", ">= 11.0"
   gem.add_runtime_dependency "thor"
 
+  gem.add_development_dependency "bueller", "~> 0.0.9"
   gem.add_development_dependency "rspec", "~> 2.7"
   gem.add_development_dependency "moqueue", "~> 0.1.4"
   gem.add_development_dependency "fakefs", "~> 0.4.0"
