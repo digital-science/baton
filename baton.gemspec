@@ -33,4 +33,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "minitar", "0.5.3"
   gem.add_development_dependency "simplecov", "0.6.4"
   gem.add_development_dependency "pry"
+  gem.add_development_dependency "guard-rspec", "~> 3.0.0"
 end
