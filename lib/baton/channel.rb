@@ -31,6 +31,7 @@ module Baton
 
       # Attach callbacks for error handling
       @connection.on_tcp_connection_loss(&method(:handle_tcp_failure))
+      @connection.on_skipped_heartbeats(&method(:handle_tcp_failure))
       @channel.on_error(&method(:handle_channel_exception))
     end
 
