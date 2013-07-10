@@ -12,6 +12,10 @@ describe Baton::Configuration do
         subject.host.should eq("fromconfig.com")
       end
 
+      it "will set the port" do
+        subject.port.should eq(12345)
+      end
+
       it "will set the vhost" do
         subject.vhost.should eq("fromconfig")
       end
@@ -46,6 +50,7 @@ describe Baton::Configuration do
       it "will return a config hash" do
         subject.connection_opts.should eq({
           host:      "fromconfig.com",
+          port:      12345,
           vhost:     "fromconfig",
           user:      "fromconfiguser",
           password:  "fromconfigpass",
@@ -60,6 +65,7 @@ describe Baton::Configuration do
         subject.vhost = nil
         subject.connection_opts.should eq({
           host:      "fromconfig.com",
+          port:      12345,
           user:      "fromconfiguser",
           password:  "fromconfigpass",
           pass:      "fromconfigpass",

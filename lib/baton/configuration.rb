@@ -75,6 +75,7 @@ module Baton
       # Pick a random host to connect to
       self.host      = rabbit_hosts[Kernel.rand(rabbit_hosts.size)]
       self.amqp_host_list = rabbit_hosts
+      self.port      = config["RABBIT_PORT"]
 
       self.vhost     = config["RABBIT_VHOST"]
       self.user      = config["RABBIT_USER"]
@@ -93,6 +94,7 @@ module Baton
     def connection_opts
       {
         :host => host, 
+        :port => port,
         :vhost => vhost, 
         :user => user, 
         :password => password, 
