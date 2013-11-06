@@ -15,6 +15,8 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Baton::VERSION
 
+  gem.required_ruby_version = ">= 1.9.3"
+
   gem.add_runtime_dependency "amqp", "~> 0.9.7"
   gem.add_runtime_dependency "amq-client", "~> 0.9.9"
   gem.add_runtime_dependency "eventmachine", "~> 1.0.0"
