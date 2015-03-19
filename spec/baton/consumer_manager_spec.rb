@@ -1,5 +1,6 @@
 require "spec_helper"
 require "moqueue"
+require "ostruct"
 
 describe Baton::ConsumerManager do
 
@@ -22,7 +23,7 @@ describe Baton::ConsumerManager do
     it "will subscribe to a queue using the correct routing key" do
       subject.exchange_in.stub(:name)
       allow_message_expectations_on_nil
-      queue = mock("queue")
+      queue = double("queue")
       queue.should_receive(:bind).with(subject.exchange_in,
                                        routing_key: "camac.production")
       queue.should_receive(:subscribe)
