@@ -22,8 +22,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency "eventmachine", "~> 1.0.0"
   gem.add_runtime_dependency "em-http-request", "1.0.3"
   gem.add_runtime_dependency "bunny", "~> 0.8.0"
-  gem.add_runtime_dependency "ohai", ">= 6.16"
-  gem.add_runtime_dependency "chef", ">= 11.8"
+  gem.add_runtime_dependency "chef", "~> 11.8"
   gem.add_runtime_dependency "thor"
 
   gem.add_development_dependency "bueller", "~> 0.0.9"
