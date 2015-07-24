@@ -81,6 +81,13 @@ module Baton
       self.user      = config["RABBIT_USER"]
       self.password  = config["RABBIT_PASS"]
       self.heartbeat = config.fetch("RABBIT_HEARTBEAT", 60).to_i
+
+      # Must be a complete certificate chain, from server cert to root cert, in PEM format
+      self.ssl_cert  = config["SSL_CERTIFICATE_CHAIN"]
+      self.ssl_key   = config["SSL_KEY"]
+      self.verify_peer? = config["VERIFY_PEER"]
+      # Options include: SSLv23, SSLv3, and TLSv1
+      self.ssl_version = config["SSL_VERSION"]
     end
 
     # Public: Defines the connection options for RabbitMQ as a Hash.
@@ -99,7 +106,13 @@ module Baton
         :user => user, 
         :password => password, 
         :pass => password,
-        :heartbeat => heartbeat
+        :heartbeat => heartbeat,
+        :ssl => {
+          :cert_chain_file => ssl_cert,
+          :private_key_file => ssl_key,
+          :verify_peer => verify_peer?,
+          :ssl_version => ssl_version
+        }
       }.delete_if{|k,v| v.nil?}
     end
   end
