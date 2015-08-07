@@ -26,8 +26,15 @@ module Baton
       Baton.configuration.exchange = '' if Baton.configuration.exchange.nil?
 
       # Create the exchanges
+      # Input exchange is how baton receives messages
+      # Output exchange is how baton returns output
       @exchange_in  = channel.direct(Baton.configuration.exchange)
-      @exchange_out = channel.direct(Baton.configuration.exchange_out)
+      if Baton.configuration.exchange_out.nil? || Baton.configuration.exchange_out.empty?
+        logger.error "An output exchange must be configured. Exiting."
+        exit 1
+      else
+        @exchange_out = channel.direct(Baton.configuration.exchange_out)
+      end
 
       # Attach callbacks for error handling
       @connection.on_tcp_connection_loss(&method(:handle_tcp_failure))

@@ -17,11 +17,12 @@ Gem::Specification.new do |gem|
 
   gem.required_ruby_version = ">= 1.9.3"
 
-  gem.add_runtime_dependency "amqp", "~> 0.9.7"
-  gem.add_runtime_dependency "amq-client", "~> 0.9.9"
-  gem.add_runtime_dependency "eventmachine-le", "1.1.7"
+  gem.add_runtime_dependency "amqp"
+  gem.add_runtime_dependency "amq-client"
+  gem.add_runtime_dependency "eventmachine"
+  gem.add_runtime_dependency "json"
   gem.add_runtime_dependency "em-http-request", "1.0.3"
-  gem.add_runtime_dependency "bunny", "~> 0.8.0"
+  gem.add_runtime_dependency "bunny", "= 1.7.0"
   gem.add_runtime_dependency "chef", "~> 11.8"
   gem.add_runtime_dependency "thor"
 

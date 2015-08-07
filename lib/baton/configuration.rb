@@ -82,10 +82,13 @@ module Baton
       self.password  = config["RABBIT_PASS"]
       self.heartbeat = config.fetch("RABBIT_HEARTBEAT", 60).to_i
 
+      self.tls      = config["TLS?"]
+      self.ssl_client_cert = config["SSL_CLIENT_CERT"]
+      self.ssl_ca_certs = (config.fetch("SSL_CA_CERTS") {""}).split(',')
       # Must be a complete certificate chain, from server cert to root cert, in PEM format
-      self.ssl_cert  = config["SSL_CERTIFICATE_CHAIN"]
+      self.ssl_full_chain  = config["SSL_CERTIFICATE_CHAIN"]
       self.ssl_key   = config["SSL_KEY"]
-      self.verify_peer? = config["VERIFY_PEER"]
+      self.verify_peer = config["VERIFY_PEER?"]
       # Options include: SSLv23, SSLv3, and TLSv1
       self.ssl_version = config["SSL_VERSION"]
     end
@@ -107,12 +110,20 @@ module Baton
         :password => password, 
         :pass => password,
         :heartbeat => heartbeat,
+        # parameters in the ssl hash are necessary for eventmachine, which is used to
+        # receive messages
         :ssl => {
-          :cert_chain_file => ssl_cert,
+          :cert_chain_file => ssl_full_chain,
           :private_key_file => ssl_key,
-          :verify_peer => verify_peer?,
+          :verify_peer => verify_peer,
           :ssl_version => ssl_version
-        }
+        },
+        # parameters below are necessary for bunny, which is used to send messages
+        :tls => tls,
+        :tls_cert => ssl_client_cert,
+        :tls_key => ssl_key,
+        :tls_ca_certificates => ssl_ca_certs,
+        :verify_peer => verify_peer
       }.delete_if{|k,v| v.nil?}
     end
   end
