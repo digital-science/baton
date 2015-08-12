@@ -1,4 +1,3 @@
-require "eventmachine-le"
 require "baton/configuration"
 require "baton/version"
 require "baton/logging"
