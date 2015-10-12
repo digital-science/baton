@@ -1,4 +1,4 @@
-require "baton/observer"
+require 'baton/observer'
 
 module Baton
   class Consumer
