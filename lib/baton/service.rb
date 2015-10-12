@@ -1,11 +1,11 @@
-require "baton"
-require "amqp"
-require "eventmachine"
-require "em-http-request"
-require "json"
-require "baton/channel"
-require "baton/server"
-require "baton/consumer_manager"
+require 'baton'
+require 'amqp'
+require 'eventmachine'
+require 'em-http-request'
+require 'json'
+require 'baton/channel'
+require 'baton/server'
+require 'baton/consumer_manager'
 
 module Baton
   class Service

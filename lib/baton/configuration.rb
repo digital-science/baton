@@ -1,11 +1,11 @@
-require "yaml"
-require "baton/logging"
+require 'yaml'
+require 'baton/logging'
 
 module Baton
   class Configuration
     include Baton::Logging
 
-    attr_accessor :config, :host, :vhost, :user, :password, :amqp_host_list, :heartbeat
+    attr_accessor :config, :host, :vhost, :user, :password, :heartbeat
 
     def initialize
       @config = {}
@@ -40,9 +40,7 @@ module Baton
       logger.error "Could not find a baton configuration file at #{path}"
     end
 
-    # Public: Setup RabbitMQ's options from a config file. You have the option of 
-    # passing in a comma seperated string of RabbitMQ servers to connect to. When 
-    # using a pool of servers one will be randomly picked for the initial connection. 
+    # Public: Set up RabbitMQ's options from a config file.
     #
     # config_file - A hash representing a config file
     #
@@ -68,38 +66,42 @@ module Baton
     #
     # Returns nothing.
     def setup_rabbitmq_opts
-
-      rabbit_hosts    = config.fetch("RABBIT_HOST") {"localhost"}
-      rabbit_hosts    = rabbit_hosts.split(',')
-
-      # Pick a random host to connect to
-      self.host      = rabbit_hosts[Kernel.rand(rabbit_hosts.size)]
-      self.amqp_host_list = rabbit_hosts
+      self.host      = config["RABBIT_HOST"]
       self.port      = config["RABBIT_PORT"]
 
       self.vhost     = config["RABBIT_VHOST"]
       self.user      = config["RABBIT_USER"]
       self.password  = config["RABBIT_PASS"]
       self.heartbeat = config.fetch("RABBIT_HEARTBEAT", 60).to_i
+
+      self.tls      = config["TLS?"]
+      self.ssl_client_cert = config["SSL_CLIENT_CERT"]
+      self.ssl_ca_certs = (config.fetch("SSL_CA_CERTS") {""}).split(',')
+      self.ssl_key   = config["SSL_KEY"]
+      self.verify_peer = config["VERIFY_PEER?"]
     end
 
-    # Public: Defines the connection options for RabbitMQ as a Hash.
+    # Public: Returns the connection options for RabbitMQ as a Hash.
     #
     # Examples
     #
     #   connection_options
     #   # => {:host=>"localhost", :vhost=>"baton", :user=>"baton", :password=>"password"}
     #
-    # Returns a hash of RabbitMQ connection options.
+    # Returns a hash of RabbitMQ connection options for Bunny.
     def connection_opts
       {
         :host => host, 
         :port => port,
         :vhost => vhost, 
         :user => user, 
-        :password => password, 
-        :pass => password,
-        :heartbeat => heartbeat
+        :password => password,
+        :heartbeat => heartbeat,
+        :tls => tls,
+        :tls_cert => ssl_client_cert,
+        :tls_key => ssl_key,
+        :tls_ca_certificates => ssl_ca_certs,
+        :verify_peer => verify_peer
       }.delete_if{|k,v| v.nil?}
     end
   end

@@ -20,3 +20,4 @@ log/*
 coverage
 *.swp
 *.rdb
+.idea/
