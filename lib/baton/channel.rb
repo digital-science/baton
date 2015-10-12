@@ -21,7 +21,7 @@ module Baton
       begin
         @session.start
       rescue Bunny::TCPConnectionFailedForAllHosts => e
-        logger.info("#{e.message}. Exiting.")
+        logger.error("#{e.message}. Exiting.")
         exit 1
       end
             
