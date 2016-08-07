@@ -25,13 +25,10 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency "chef", "~> 11.8"
   gem.add_runtime_dependency "thor", "~> 0.19"
 
-  gem.add_development_dependency "bueller", "~> 0.0"
   gem.add_development_dependency "rspec", "~> 3.0"
   gem.add_development_dependency "moqueue", "~> 0.1"
   gem.add_development_dependency "fakefs", "~> 0.4"
   gem.add_development_dependency "rake", "~> 0.9"
   gem.add_development_dependency "webmock", "~> 1.8"
-  gem.add_development_dependency "minitar", "~> 0.5"
   gem.add_development_dependency "simplecov", "~> 0.6"
-  gem.add_development_dependency "pry", "~> 0.10"
 end
