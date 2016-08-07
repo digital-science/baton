@@ -4,8 +4,8 @@ require File.expand_path('../lib/baton/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["John Griffin", "Carlos Vilhena"]
   gem.email         = ["johnog@gmail.com", "carlosvilhena@gmail.com"]
-  gem.description   = "Baton"
-  gem.summary       = "Baton"
+  gem.description   = "A general purpose server orchestration tool"
+  gem.summary       = "Server orchestration framework"
   gem.homepage      = "https://github.com/digital-science/baton"
 
   gem.executables   = ['batonize']
