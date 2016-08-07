@@ -8,11 +8,9 @@ Gem::Specification.new do |gem|
   gem.summary       = "Baton"
   gem.homepage      = "https://github.com/digital-science/baton"
 
-  gem.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
-  gem.files         = `git ls-files`.split("\n").reject { |fn| fn.include? ".tgz" }
-  gem.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n").reject { |fn| fn.include? ".tgz" }
+  gem.executables   = ['batonize']
+  gem.files         = Dir['bin/*'] + Dir['lib/**/*'] + Dir['spec/**/*'] + Dir['[A-Z]*']
   gem.name          = "baton"
-  gem.require_paths = ["lib"]
   gem.version       = Baton::VERSION
 
   gem.required_ruby_version = ">= 1.9.3"
