@@ -6,7 +6,7 @@ describe Baton do
       Baton.configure do |c|
         c.pusher_key = "foo"
       end
-      Baton.configuration.pusher_key.should eq("foo")
+      expect(Baton.configuration.pusher_key).to eq("foo")
     end
   end
 end
