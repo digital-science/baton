@@ -1,4 +1,5 @@
 require "ohai"
+require "yaml"
 
 module Baton
   class Server
@@ -17,7 +18,8 @@ module Baton
     #
     # Returns nothing.
     def configure
-      @environment = facts.fetch("chef_environment"){"development"}.downcase
+      baton_config = YAML.load_file('/etc/baton/baton-env.cfg')
+      @environment = baton_config['CHEF_ENVIRONMENT'].downcase
       @fqdn        = facts.fetch("fqdn"){""}
       @app_names   = facts.fetch("trebuchet"){[]}
     end
